@@ -31,8 +31,8 @@ namespace LdLib.Shapes
 
         protected internal override (Vector2[] points, Vector2 position, Vector2 scale, float rotation) GetNormalizedPoints()
         {
-            Vector2 normalizedPosition = Position * 2 / (Vector2)Canvas.Settings.Size - Vector2.One;
-            Vector2 normalizedSize = Size / (Vector2)Canvas.Settings.Size * 2;
+            Vector2 normalizedPosition = NormalizePosition(Position);
+            Vector2 normalizedSize = NormalizeSize(Size);
 
             Vector2[] points =
             {

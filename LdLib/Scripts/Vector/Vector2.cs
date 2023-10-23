@@ -32,6 +32,12 @@ namespace LdLib.Vector
 
         public readonly Vector2 Normalized => new Vector2(X, Y) / Magnitude;
 
+        public readonly float Rotation
+        { 
+            get => MathF.Atan2(Y, X);
+            set => new Vector2(Magnitude, 0).Rotate(value);
+        }
+
         public Vector2(float xy) => this = new(xy, xy);
 
         public Vector2(float x, float y)
@@ -52,6 +58,7 @@ namespace LdLib.Vector
         public static bool operator ==(Vector2 left, Vector2 right) => left.X.Equals(right.X) && left.Y.Equals(right.Y);
         public static bool operator !=(Vector2 left, Vector2 right) => !(left == right);
         public static implicit operator Vector2(Vector2Int v) => new(v.X, v.Y);
+        public static implicit operator Vector2(System.Numerics.Vector2 v) => new(v.X, v.Y);
 
         public static Vector2 operator *(Matrix2X2<float> m, Vector2 v)
         {

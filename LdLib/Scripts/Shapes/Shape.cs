@@ -1,5 +1,6 @@
 ﻿using System.Drawing;
 using LdLib.Vector;
+using Silk.NET.Input;
 using Silk.NET.Maths;
 using Silk.NET.OpenGL;
 
@@ -269,6 +270,19 @@ namespace LdLib
 
 
             return points;
+        }
+
+        protected internal static Vector2 NormalizePosition(Vector2 position)
+        {
+            position.Y = Canvas.Settings.Size.Y - position.Y;
+            Vector2 normalizedPosition = position * 2 / (Vector2)Canvas.Settings.Size - Vector2.One;
+            return normalizedPosition;
+        }
+
+        protected internal static Vector2 NormalizeSize(Vector2 size)
+        {
+            Vector2 normalizedSize = size / (Vector2)Canvas.Settings.Size * 2;
+            return normalizedSize;
         }
     }
 }
