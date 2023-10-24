@@ -1,34 +1,30 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿namespace LdLib;
 
-namespace LdLib
+public abstract class CanvasObject : IDisposable
 {
-    public abstract class CanvasObject: IDisposable
+    internal static List<CanvasObject> All = new();
+
+    protected CanvasObject()
     {
-        internal static List<CanvasObject> All = new();
+        All.Add(this);
+    }
 
-        protected CanvasObject()
-        {
-            All.Add(this);
-        }
+    public void Dispose()
+    {
+        Destroy();
+    }
 
-        protected virtual void Update() {}
+    protected virtual void Update()
+    {
+    }
 
-        internal void UpdateInternal()
-        {
-            Update();
-        }
+    internal void UpdateInternal()
+    {
+        Update();
+    }
 
-        public void Destroy()
-        {
-            All.Remove(this);
-        }
-        public void Dispose()
-        {
-            Destroy();
-        }
+    public void Destroy()
+    {
+        All.Remove(this);
     }
 }

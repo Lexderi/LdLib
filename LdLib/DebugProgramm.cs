@@ -1,7 +1,6 @@
-﻿using LdLib;
+﻿using System.Drawing;
+using LdLib;
 using LdLib.Shapes;
-using LdLib.Vector;
-using Color = System.Drawing.Color;
 
 public class DebugProgram : CanvasObject
 {
