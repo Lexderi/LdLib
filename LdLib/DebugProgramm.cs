@@ -7,7 +7,7 @@ public class DebugProgram : CanvasObject
 {
     private static DebugProgram instance = null!;
 
-    private Line line;
+    private Polygon polygon;
 
     public static void Main(string[] _)
     {
@@ -18,14 +18,14 @@ public class DebugProgram : CanvasObject
 
     private void Load()
     {
-        line = new(new(750), new(500), 10, Color.SkyBlue);
+        polygon = new(new List<Vector2>() { new(250), new(500, 250), new(250, 500) }, Color.MintCream);
     }
 
     protected override void Update()
     {
         if (Input.MouseDown)
         {
-            line.End = Input.MousePosition;
+            polygon.Points[0] = Input.MousePosition;
         }
     }
 }

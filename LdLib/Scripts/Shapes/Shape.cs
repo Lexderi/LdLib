@@ -12,7 +12,6 @@ namespace LdLib
 
         public bool Destroyed;
 
-        public Vector2 Position;
         public Color Color;
 
         private const string vertexShaderSource =
@@ -42,11 +41,6 @@ namespace LdLib
             ";
 
         protected static uint ShaderProgram { get; private set; }
-
-        protected Shape(Vector2 position) : this() 
-        {
-            Position = position;
-        }
 
         internal Shape()
         {
