@@ -3,12 +3,28 @@ using LdLib.Vector;
 
 namespace LdLib.Shapes;
 
+/// <summary>
+/// A circle that gets drawn to the canvas
+/// THIS OBJECT HAS TO BE DESTROYED MANUALLY
+/// </summary>
 public class Circle : Shape
 {
     private static Vector2[] mesh = null!;
+    /// <summary>
+    /// Diameter of the circle in pixels
+    /// </summary>
     public float Diameter;
+    /// <summary>
+    /// Position of the circle in pixels
+    /// </summary>
     public Vector2 Position;
-
+    
+    /// <summary>
+    /// A circle that gets drawn to the canvas
+    /// </summary>
+    /// <param name="position">Position of the circle in pixels</param>
+    /// <param name="diameter">Diameter of the circle in pixels</param>
+    /// <param name="color">Color of the circle</param>
     public Circle(Vector2 position, float diameter, Color color)
     {
         Position = position;
@@ -32,7 +48,7 @@ public class Circle : Shape
         }
     }
 
-    protected internal override (Vector2[] points, Vector2 position, Vector2 scale, float rotation)
+    protected override (Vector2[] points, Vector2 position, Vector2 scale, float rotation)
         GetNormalizedPoints()
     {
         Vector2 normalizedPosition = NormalizePosition(Position);

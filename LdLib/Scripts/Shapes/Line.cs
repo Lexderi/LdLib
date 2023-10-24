@@ -3,13 +3,32 @@ using LdLib.Vector;
 
 namespace LdLib.Shapes;
 
+/// <summary>
+/// A line that gets drawn to the canvas
+/// THIS OBJECT HAS TO BE DESTROYED MANUALLY
+/// </summary>
 public class Line : Shape
 {
-    public Vector2 End;
+    /// <summary>
+    /// Start of the line in pixels
+    /// </summary>
     public Vector2 Start;
-
+    /// <summary>
+    /// End of the line in pixels
+    /// </summary>
+    public Vector2 End;
+    /// <summary>
+    /// Width of the line in pixels
+    /// </summary>
     public float Weight;
-
+    
+    /// <summary>
+    /// A line that gets drawn to the canvas
+    /// </summary>
+    /// <param name="start">Start of the line in pixels</param>
+    /// <param name="end">End of the line in pixels</param>
+    /// <param name="weight">Width of the line in pixels</param>
+    /// <param name="color">Color of the line</param>
     public Line(Vector2 start, Vector2 end, float weight, Color color)
     {
         Start = start;
@@ -18,7 +37,7 @@ public class Line : Shape
         Color = color;
     }
 
-    protected internal override (Vector2[] points, Vector2 position, Vector2 scale, float rotation)
+    protected override (Vector2[] points, Vector2 position, Vector2 scale, float rotation)
         GetNormalizedPoints()
     {
         Vector2[] points =

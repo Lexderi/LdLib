@@ -5,7 +5,11 @@ using Silk.NET.OpenGL;
 
 namespace LdLib.Shapes;
 
-public abstract class Shape : IDisposable
+/// <summary>
+/// A shape that gets drawn to the canvas
+/// THIS OBJECT HAS TO BE DESTROYED MANUALLY
+/// </summary>
+public abstract class Shape
 {
     private const string vertexShaderSource =
         @"#version 330 core
@@ -37,10 +41,16 @@ public abstract class Shape : IDisposable
 
     private static readonly List<Shape> DestroyQueue = new();
 
+    /// <summary>
+    /// Color of the shape
+    /// </summary>
     public Color Color;
 
     internal bool DestroyAfterDraw;
 
+    /// <summary>
+    /// If the shape is destroyed
+    /// </summary>
     public bool Destroyed;
 
     private float prevRotation;
@@ -58,11 +68,6 @@ public abstract class Shape : IDisposable
     }
 
     protected static uint ShaderProgram { get; private set; }
-
-    public void Dispose()
-    {
-        Destroy();
-    }
 
     internal static void CompileShaders()
     {
@@ -117,7 +122,7 @@ public abstract class Shape : IDisposable
         foreach (Shape shape in DestroyQueue) All.Remove(shape);
     }
 
-    internal unsafe void Render()
+    private unsafe void Render()
     {
         (Vector2[] points, Vector2 position, Vector2 scale, float rotation) = GetNormalizedPoints();
 
@@ -185,9 +190,12 @@ public abstract class Shape : IDisposable
         if (DestroyAfterDraw) Destroy();
     }
 
-    protected internal abstract (Vector2[] points, Vector2 position, Vector2 scale, float rotation)
+    protected abstract (Vector2[] points, Vector2 position, Vector2 scale, float rotation)
         GetNormalizedPoints();
 
+    /// <summary>
+    /// Destroys the object
+    /// </summary>
     public void Destroy()
     {
         DestroyQueue.Add(this);

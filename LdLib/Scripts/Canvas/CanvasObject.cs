@@ -1,6 +1,10 @@
 ﻿namespace LdLib;
 
-public abstract class CanvasObject : IDisposable
+/// <summary>
+/// An object that gets updated each frame by the canvas
+/// THESE OBJECTS HAVE TO BE DESTROYED MANUALLY
+/// </summary>
+public abstract class CanvasObject
 {
     internal static List<CanvasObject> All = new();
 
@@ -9,11 +13,9 @@ public abstract class CanvasObject : IDisposable
         All.Add(this);
     }
 
-    public void Dispose()
-    {
-        Destroy();
-    }
-
+    /// <summary>
+    /// This will be called every frame
+    /// </summary>
     protected virtual void Update()
     {
     }
@@ -23,6 +25,9 @@ public abstract class CanvasObject : IDisposable
         Update();
     }
 
+    /// <summary>
+    /// The object won't be updated anymore and allows to be fully removed
+    /// </summary>
     public void Destroy()
     {
         All.Remove(this);
