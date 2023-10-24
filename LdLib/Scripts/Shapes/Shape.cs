@@ -4,11 +4,13 @@ using Silk.NET.Input;
 using Silk.NET.Maths;
 using Silk.NET.OpenGL;
 
-namespace LdLib
+namespace LdLib.Shapes
 {
     public abstract class Shape: IDisposable
     {
         internal static List<Shape> All = new();
+
+        private static List<Shape> DestroyQueue = new();
 
         public bool Destroyed;
 
@@ -41,6 +43,8 @@ namespace LdLib
             ";
 
         protected static uint ShaderProgram { get; private set; }
+
+        internal bool DestroyAfterDraw;
 
         internal Shape()
         {
@@ -86,9 +90,6 @@ namespace LdLib
             {
                 Console.WriteLine($"Error compiling shader program {infoLog}");
             }
-
-
-
             // delete individual shaders
             Canvas.Gl.DetachShader(ShaderProgram, vertexShader);
             Canvas.Gl.DetachShader(ShaderProgram, fragmentShader);
@@ -107,6 +108,9 @@ namespace LdLib
 
             Canvas.Gl.UseProgram(ShaderProgram);
             foreach (Shape shape in All) shape.Render();
+            
+            // clear destroy queue
+            foreach (Shape shape in DestroyQueue) All.Remove(shape);
         }
 
         internal unsafe void Render()
@@ -122,7 +126,8 @@ namespace LdLib
             {
                 for (uint j = 0; j < 3; j++)
                 {
-                    indices[i * 3 + j] = i + j;
+                    if (j == 0) indices[i * 3 + j] = 0;
+                    else indices[i * 3 + j] = i + j;
                 }
             }
 
@@ -175,13 +180,15 @@ namespace LdLib
             Canvas.Gl.DeleteBuffer(vertexBufferObject);
             Canvas.Gl.DeleteBuffer(vertexArrayObject);
             Canvas.Gl.DeleteBuffer(ebo);
+
+            if (DestroyAfterDraw) Destroy();
         }
 
         protected internal abstract (Vector2[] points, Vector2 position, Vector2 scale, float rotation) GetNormalizedPoints();
 
         public void Destroy()
         {
-            All.Remove(this);
+            DestroyQueue.Add(this);
             Destroyed = true;
         }
 
@@ -273,7 +280,7 @@ namespace LdLib
             return normalizedPosition;
         }
 
-        protected internal static Vector2 NormalizeSize(Vector2 size)
+        protected internal static Vector2 NormalizeScale(Vector2 size)
         {
             Vector2 normalizedSize = size / (Vector2)Canvas.Settings.Size * 2;
             return normalizedSize;

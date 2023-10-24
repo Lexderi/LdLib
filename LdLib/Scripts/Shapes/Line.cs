@@ -14,13 +14,13 @@ namespace LdLib.Shapes
         public Vector2 Start;
         public Vector2 End;
 
-        public float Width;
+        public float Weight;
 
-        public Line(Vector2 start, Vector2 end, float width, Color color)
+        public Line(Vector2 start, Vector2 end, float weight, Color color)
         {
             Start = start;
             End = end;
-            Width = width;
+            Weight = weight;
             Color = color;
         }
 
@@ -38,7 +38,7 @@ namespace LdLib.Shapes
             Vector2 normalizedStart = NormalizePosition(Start);
             Vector2 delta = End - Start;
             float rotation = -delta.Rotation;
-            Vector2 normalizedSize = NormalizeSize(new(delta.Magnitude, Width));
+            Vector2 normalizedSize = NormalizeScale(new(delta.Magnitude, Weight));
 
             return (points, normalizedStart, normalizedSize, rotation);
         }

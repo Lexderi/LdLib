@@ -1,13 +1,12 @@
-﻿using System.Diagnostics;
-using System.Drawing;
-using System.Reflection;
+﻿using System.Drawing;
 using System.Runtime.InteropServices;
-using System.Text;
+using LdLib.Shapes;
 using LdLib.Vector;
 using Silk.NET.Input;
 using Silk.NET.Maths;
 using Silk.NET.OpenGL;
 using Silk.NET.Windowing;
+using Rectangle = LdLib.Shapes.Rectangle;
 
 namespace LdLib
 {
@@ -23,6 +22,11 @@ namespace LdLib
 
         internal static GL Gl = null!;
         private static Action? loadCallback;
+
+        // Drawing Variables
+        public static float Weight = 10;
+        public static Color Color = Color.White;
+        public static Vector2 Pivot = Vector2.Zero;
 
         public static void Initialize(Action? loadCallback = null)
         {
@@ -85,7 +89,6 @@ namespace LdLib
             Time.DeltaTime = (float)deltaTime;
 
             // execute all updates
-
             foreach (CanvasObject canvasObject in CanvasObject.All)
             {
                 canvasObject.UpdateInternal();
@@ -98,13 +101,18 @@ namespace LdLib
             
             Gl = Window.CreateOpenGL();
             
+            // init message callbacks
             Gl.Enable(EnableCap.DebugOutput);
             Gl.DebugMessageCallback(MessageCallback, 0);
 
+            // set clear color
             if(Settings.DefaultBackground != null)
                 Gl.ClearColor((Color)Settings.DefaultBackground);
 
+            // compile/create/generate stuff
             Shape.CompileShaders();
+
+            Shapes.Circle.GenerateMesh(100);
             
             loadCallback?.Invoke();
         }
@@ -121,6 +129,41 @@ namespace LdLib
         {
             Shape.DeleteProgram();
         }
+
+        #region Drawing
+
+        public static void DrawPolygon(IEnumerable<Vector2> points)
+        {
+            _ = new Polygon(points, Color)
+            {
+                DestroyAfterDraw = true
+            };
+        }
+
+        public static void DrawRectangle(Vector2 position, Vector2 size, float rotation = 0f)
+        {
+            _ = new Rectangle(position, size, Pivot, Color, rotation)
+            {
+                DestroyAfterDraw = true
+            };
+        }
+
+        public static void DrawCircle(Vector2 position, float diameter)
+        {
+            _ = new Circle(position, diameter, Color)
+            {
+                DestroyAfterDraw = true
+            };
+        }
+
+        public static void DrawLine(Vector2 start, Vector2 end)
+        {
+            _ = new Line(start, end, Weight, Color)
+            {
+                DestroyAfterDraw = true
+            };
+        }
+        #endregion
     }
 
     public struct CanvasSettings

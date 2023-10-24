@@ -1,6 +1,8 @@
 ﻿using System.Diagnostics;
+using System.Diagnostics.Metrics;
 using LdLib.Vector;
 using Silk.NET.Input;
+using Silk.NET.OpenGL;
 
 namespace LdLib
 {
@@ -21,10 +23,19 @@ namespace LdLib
                 {
                     throw new("The canvas was either not initialized or there were no connected mice found");
                 }
-                else
+                return mouse.Position;
+            }
+        }
+
+        public static float MouseScrollDelta
+        {
+            get
+            {
+                if (!mouseFound)
                 {
-                    return mouse.Position;
+                    throw new("The canvas was either not initialized or there were no connected mice found");
                 }
+                return mouse.ScrollWheels[0].Y;
             }
         }
 

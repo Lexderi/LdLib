@@ -7,7 +7,7 @@ public class DebugProgram : CanvasObject
 {
     private static DebugProgram instance = null!;
 
-    private Polygon polygon;
+    private Circle circle;
 
     public static void Main(string[] _)
     {
@@ -18,14 +18,11 @@ public class DebugProgram : CanvasObject
 
     private void Load()
     {
-        polygon = new(new List<Vector2>() { new(250), new(500, 250), new(250, 500) }, Color.MintCream);
+        Canvas.Color = Color.HotPink;
     }
 
     protected override void Update()
     {
-        if (Input.MouseDown)
-        {
-            polygon.Points[0] = Input.MousePosition;
-        }
+        Canvas.DrawCircle(Input.MousePosition, 50);
     }
 }

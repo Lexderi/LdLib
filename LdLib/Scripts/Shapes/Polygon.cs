@@ -12,9 +12,9 @@ namespace LdLib.Shapes
     {
         public List<Vector2> Points;
 
-        public Polygon(List<Vector2> points, Color color)
+        public Polygon(IEnumerable<Vector2> points, Color color)
         {
-            Points = points;
+            Points = points.ToList();
             Color = color;
         }
 
