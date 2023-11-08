@@ -1,15 +1,21 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
     <PropertyGroup>
-        <OutputType>Exe</OutputType>
-        <TargetFramework>net6.0</TargetFramework>
+        <TargetFramework>net7.0</TargetFramework>
         <ImplicitUsings>enable</ImplicitUsings>
         <Nullable>enable</Nullable>
+        <Company>Lexderi</Company>
+        <Product>LdLib</Product>
         <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+        <LangVersion>default</LangVersion>
+        <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+        <Title>LdLib</Title>
+        <Authors>Lexderi</Authors>
+        <Description>A simple p5js like drawing library made for toy projects. This library is not for performance</Description>
     </PropertyGroup>
 
     <ItemGroup>
-        <PackageReference Include="Silk.NET" Version="2.17.1"/>
+      <PackageReference Include="Silk.NET" Version="2.18.0" />
     </ItemGroup>
 
 </Project>

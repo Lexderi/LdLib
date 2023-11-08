@@ -2,7 +2,6 @@
 using System.Runtime.InteropServices;
 using LdLib.Shapes;
 using LdLib.Vector;
-using Microsoft.VisualBasic.CompilerServices;
 using Silk.NET.Input;
 using Silk.NET.Maths;
 using Silk.NET.OpenGL;
